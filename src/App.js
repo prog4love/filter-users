@@ -73,7 +73,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.updateData(data));
     },
     onSearch(query) {
-      dispatch(actions.searchByName(query));
+      dispatch(actions.searchInUserData(query));
     },
     sortData(key, order) {
       dispatch(actions.sortBy(key, order));

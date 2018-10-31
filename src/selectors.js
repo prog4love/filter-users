@@ -6,10 +6,14 @@ export const getActiveUser = (users, id) => {
 };
 
 export const getFilteredUsers = (users, searchQuery) => {
-  const compareToQuery = (value, query, propName) => {
+  const compareToQuery = (propValue, query, propName) => {
     if (propName === 'avatar') {
       return false;
     }
+    const value = propValue.toLowerCase();
+
+    // console.log(`COMPARE: "${query}" === "${value}" (${propName})`);
+
     if (propName !== 'phone' && value.includes(query)) {
       return true;
     }
@@ -18,7 +22,7 @@ export const getFilteredUsers = (users, searchQuery) => {
       const phoneNums = value.replace(/\D/g, '');
       const queryNums = query.replace(/\D/g, '');
 
-      return phoneNums.includes(queryNums);
+      return queryNums.length > 0 && phoneNums.includes(queryNums);
     }
     return false;
   }
@@ -44,44 +48,35 @@ export const getFilteredUsers = (users, searchQuery) => {
     //   company: "Ledner, Johnson and Predovic"
     //   title: "Investor Functionality Coordinator"
 
+    if (searchQuery === '') {
+      return true;
+    }
     let hasMatch = false;
 
-    const fieldsToBeLowercased = {
-      address: ['city', 'country', 'street'],
-      contact: ['email'],
-      general: ['firstName', 'lastName'],
-      job: ['company', 'title'],
-    };
-    const lowercasedUser = {};
+    // NOTE: have been already lowercased and trimmed after input
+    const lowercasedQuery = searchQuery.trim().toLowerCase();
 
-    // lowercase needed properties and compare all properties to search query
+    // compare needed properties to search query
     Object.keys(user).forEach((field) => {
-      const currentField = user[field];
-
-      // special case - "id" field
-      if (field === 'id') {
-        lowercasedUser[field] = currentField;
+      if (hasMatch) {
         return;
       }
-      lowercasedUser[field] = {
-        ...currentField, // e.g. user['general'] | user['contact']
-      };
-      const processedField = lowercasedUser[field];
-
-      Object.keys(currentField).forEach((prop) => {
-        const shouldLowercase = fieldsToBeLowercased[field].includes(prop);
-
-        if (shouldLowercase) {
-          // e.g. lowercasedUser['address']['city']
-          processedField[prop] = currentField[prop].toLowerCase();
+      const initialField = user[field];
+      // special case - "id" field
+      if (field === 'id') {
+        return;
+      }
+      Object.keys(initialField).forEach((prop) => {
+        if (hasMatch) {
+          return;
         }
-        hasMatch = compareToQuery(processedField[prop], searchQuery, prop);
+        hasMatch = compareToQuery(initialField[prop], lowercasedQuery, prop);
+        // TEMP:
+        if (hasMatch) {
+          console.log(`TRUE: "${searchQuery}" === "${initialField[prop]}" (${prop})`);
+        }
       });
     });
-
-    console.log('USER: ', user);
-    console.log('LOWESRCASED USER: ', lowercasedUser);
-
     return hasMatch;
 
     // if (

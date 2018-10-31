@@ -2,7 +2,7 @@ import nanoid from 'nanoid';
 
 export const actionTypes = {
   UPDATE_DATA: 'UPDATE_DATA',
-  SEARCH_BY_NAME: 'SEARCH_BY_NAME',
+  SEARCH_IN_USER_DATA: 'SEARCH_IN_USER_DATA',
   SORT_BY_FIRST_NAME: 'SORT_BY_FIRST_NAME',
   SORT_BY_LAST_NAME: 'SORT_BY_LAST_NAME',
   SELECT_ACTIVE_USER: 'SELECT_ACTIVE_USER'
@@ -16,9 +16,9 @@ export const updateData = payload => {
   };
 };
 
-export const searchByName = payload => {
+export const searchInUserData = payload => {
   return {
-    type: aT.SEARCH_BY_NAME,
+    type: aT.SEARCH_IN_USER_DATA,
     payload
   };
 };

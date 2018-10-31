@@ -13,7 +13,6 @@ class UserList extends Component {
     stickyElement = React.createRef()
 
     componentDidMount( ) {
-      console.log('this.stickyElement.current: ', this.stickyElement.current);
       Stickyfill.addOne(this.stickyElement.current);
     }
 
