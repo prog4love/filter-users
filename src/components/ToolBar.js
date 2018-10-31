@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import SortByName from './SortByName';
-import SortByAge from './SortByAge';
+import SortByFirstName from './SortByFirstName';
+import SortByLastName from './SortByLastName';
 
 const ToolBar = ({ onSort }) => {
 	return (
 		<div className="row toolbar">
 			<div className="col-md-12">
 				<div className="pull-right">
-					<SortByName onSort={onSort} />
-					<SortByAge onSort={onSort} />
+					<SortByFirstName onSort={onSort} />
+					<SortByLastName onSort={onSort} />
 				</div>
 			</div>
 		</div>
