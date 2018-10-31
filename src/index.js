@@ -1,5 +1,7 @@
 // This must be the first line in src/index.js
 import 'react-app-polyfill/ie11';
+import 'core-js/fn/array/includes';
+import 'core-js/fn/string/includes';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';

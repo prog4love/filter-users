@@ -40,14 +40,14 @@ class SearchBar extends Component {
 						<div style={{position: 'relative'}}>
 							<input type="text" className="form-control" placeholder="Search by name..."
 							ref="searchField" onChange={this.handleChange} />
-							<button type="button" className="close" style={fieldCleanerStyles}
+							<button type="button" className="close search-field-cleaner" style={fieldCleanerStyles}
 								onClick={this.cleanField}>
 								&times;
 							</button>
 						</div>
 					</div>
 				</div>
-				
+
 			);
 		}
 }

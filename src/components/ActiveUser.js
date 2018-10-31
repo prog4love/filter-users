@@ -9,7 +9,7 @@ const ActiveUser = ({ user }) => {
 
 		return (
 			<div className={Utils.concatClassNames(optClassName, 'panel', 'panel-default')}>
-				<div className="active-user-edge-cover" />
+				<div className="active-user-spacer-cover" />
 				{general && (
 					<div className="panel-heading text-center">
 						{general.firstName || ''}
@@ -40,7 +40,7 @@ const ActiveUser = ({ user }) => {
 						<li className="list-group-item"><b>Position:</b> {job.title}</li>
 					</ul>
 				</div>
-				<div className="active-user-edge-cover" />
+				<div className="active-user-spacer-cover" />
 			</div>
 		);
 }

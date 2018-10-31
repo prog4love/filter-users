@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Stickyfill from 'stickyfilljs';
 
 import UserData from './UserData';
 import ActiveUser from './ActiveUser';
@@ -9,10 +10,20 @@ import { selectActiveUser } from '../action-creators';
 import { getActiveUser } from '../selectors';
 
 class UserList extends Component {
+    stickyElement = React.createRef()
+
+    componentDidMount( ) {
+      console.log('this.stickyElement.current: ', this.stickyElement.current);
+      Stickyfill.addOne(this.stickyElement.current);
+    }
+
     render() {
       return (
         <div className="row">
-          <div className="active-user-container col-md-4">
+          <div
+            ref={this.stickyElement}
+            className="active-user-container col-md-4"
+          >
             <ActiveUser user={this.props.activeUser} />
           </div>
           <div className="col-md-8">

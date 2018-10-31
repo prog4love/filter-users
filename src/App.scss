@@ -31,14 +31,23 @@
 //   }
 // }
 
+$active-user-spacer-cover-height: 15px;
+
 .active-user-container {
   position: sticky;
-  top: 0;  // block with .active-user-edge-cover is added at top
+  top: 0;  // block with .active-user-spacer-cover is added at top
   z-index: 999;
 }
 
-.active-user-edge-cover {
-  min-height: 15px;
+// clearfix for sticky positioning
+// .active-user-container::before,
+// .active-user-container::after {
+//   content: '';
+//   display: table;
+// }
+
+.active-user-spacer-cover {
+  min-height: $active-user-spacer-cover-height;
   background-color: #2b3e50;
 }
 
@@ -52,7 +61,7 @@
 }
 
 .active-user-info {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 
   &.list-group {
     max-height: 180px;
@@ -88,6 +97,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -97,7 +107,7 @@
   font-size: 5rem;
   margin-top: 3rem;
   color: #fff;
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif;
   font-weight: 700;
   letter-spacing: -2px;
 }
@@ -123,39 +133,43 @@
 
 .user-data-item {
   cursor: pointer;
-  font-size: 1.3em;
+  font-size: 1em;
 
-  @media only screen and (max-width : 480px) {
-    font-size: 1em;
+  @media only screen and (min-width: 480px) {
+    font-size: 1.3em;
   }
 }
 
-input::-ms-clear {
-  display: none;
-}
-
-@media screen and (min-width: 992px) {
-  .active-user-container {
-    top: 15px; // and block with .active-user-edge-cover is removed
-  }
+@media only screen and (min-width: 992px) {
+  // .active-user-container {
+  //   top: 15px; // + block with .active-user-spacer-cover is removed
+  // }
 
   .active-user-info {
     &.list-group {
       max-height: none;
-      overflow: unset;
+      overflow: initial;
       padding: 0;
     }
   }
 
-  .active-user-edge-cover {
-    display: none;    
-  }
+  // .active-user-spacer-cover {
+  //   display: none;
+  // }
 
   .active-user-preview {
     flex-direction: column;
   }
 
-  .toolbar {
-    margin-bottom: 15px; // revert to bootstrap's row bottom margin
+  .table {
+    padding-top: $active-user-spacer-cover-height;
   }
+
+  // .toolbar {
+  //   margin-bottom: 15px; // revert to bootstrap's row bottom margin
+  // }
+}
+
+input::-ms-clear {
+  display: none;
 }

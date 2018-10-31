@@ -6,7 +6,7 @@ import { concatClassNames } from '../utils';
 let order = false;
 
 export function getOptClassName(className, order) {
-	return !order ? className : `${className}-alt`;
+	return order ? className : `${className}-alt`;
 };
 
 const SortByLastName = ({ onSort }) => {
