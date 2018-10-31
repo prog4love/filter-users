@@ -1,0 +1,161 @@
+// .App {
+//   text-align: center;
+// }
+
+// .App-logo {
+//   animation: App-logo-spin infinite 20s linear;
+//   height: 40vmin;
+// }
+
+// .App-header {
+//   background-color: #282c34;
+//   min-height: 100vh;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: calc(10px + 2vmin);
+//   color: white;
+// }
+
+// .App-link {
+//   color: #61dafb;
+// }
+
+// @keyframes App-logo-spin {
+//   from {
+//     transform: rotate(0deg);
+//   }
+//   to {
+//     transform: rotate(360deg);
+//   }
+// }
+
+.active-user-container {
+  position: sticky;
+  top: 0;  // block with .active-user-edge-cover is added at top
+  z-index: 999;
+}
+
+.active-user-edge-cover {
+  min-height: 15px;
+  background-color: #2b3e50;
+}
+
+.active-user-image {
+  width: 180px;
+  height: 180px;
+}
+
+.active-user-preview {
+  display: flex;
+}
+
+.active-user-info {
+  margin-bottom: 0px;
+
+  &.list-group {
+    max-height: 180px;
+    overflow: auto;
+    flex: auto;
+    padding: 0 10px;
+  }
+
+  .list-group-item {
+    overflow: auto;
+  }
+}
+
+.active-user-hr {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.rc-intro {
+  background-color: #222;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.rc-img {
+  animation: rc-img-spin infinite 20s linear;
+  max-height: 50px;
+  max-width: 50px;
+}
+
+@keyframes rc-img-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rc-title {
+  font-size: 5rem;
+  margin-top: 3rem;
+  color: #fff;
+  font-family: 'Open Sans';
+  font-weight: 700;
+  letter-spacing: -2px;
+}
+
+.rc-description {
+  margin-top: 2rem;
+  font-size: 2rem;
+  color: #ccc;
+}
+
+.row {
+  margin-bottom: 15px;
+}
+
+.toolbar {
+  margin-bottom: 0; // to reset bootstrap's row bottom margin
+}
+
+.user-image {
+  width: 60px;
+  height: 60px;
+}
+
+.user-data-item {
+  cursor: pointer;
+  font-size: 1.3em;
+
+  @media only screen and (max-width : 480px) {
+    font-size: 1em;
+  }
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+@media screen and (min-width: 992px) {
+  .active-user-container {
+    top: 15px; // and block with .active-user-edge-cover is removed
+  }
+
+  .active-user-info {
+    &.list-group {
+      max-height: none;
+      overflow: unset;
+      padding: 0;
+    }
+  }
+
+  .active-user-edge-cover {
+    display: none;    
+  }
+
+  .active-user-preview {
+    flex-direction: column;
+  }
+
+  .toolbar {
+    margin-bottom: 15px; // revert to bootstrap's row bottom margin
+  }
+}
