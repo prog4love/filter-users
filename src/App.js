@@ -55,15 +55,15 @@ class App extends Component {
 
 App.propTypes = {
   data: PropTypes.arrayOf(userPropType),
-  onDataLoaded: PropTypes.func,
+  onDataLoaded: PropTypes.func.isRequired,
   onSearch: PropTypes.func,
   sortData: PropTypes.func,
-  dataUrl: PropTypes.string
+  dataUrl: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => {
   return {
-    data: getFilteredUsers(state.users, state.searchQuery)
+    data: getFilteredUsers(state),
   }
 };
 

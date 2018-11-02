@@ -1,11 +1,38 @@
-export const getActiveUser = (users, id) => {
-  if (!id && id !== 0) {
-    return [...users][0] || {};
-  }
-  return users.filter(d => d.id === id)[0] || {};
-};
+import { createSelector } from 'reselect';
 
-export const getFilteredUsers = (users, searchQuery) => {
+const QUERY_LENGTH_LIMIT = 30;
+
+export const getUsers = state => state.users;
+export const getActiveUserId = state => state.activeUserId;
+export const getSearchQuery = state => state.searchQuery;
+
+// export const getActiveUser = (users, id) => {
+//   if (!id && id !== 0) {
+//     return [...users][0] || {};
+//   }
+//   return users.filter(d => d.id === id)[0] || {};
+// };
+
+export const getFilteredUsers = createSelector(
+  [getUsers, getSearchQuery],
+  filterUsers,
+);
+
+export const getActiveUser = createSelector(
+  [getFilteredUsers, getActiveUserId],
+  (users, id) => {
+    if (users.length < 1) {
+      return null;
+    }
+    if (!id || !users.some(user => user.id === id)) {
+      return users.length > 0 ? users[0] : null;
+    }
+    return users.filter(user => user.id === id)[0];
+  },
+);
+
+export function filterUsers(users, searchQuery) {
+  // NOTE: remember to NOT mutate initial users array and user objects further
   const compareToQuery = (propValue, query, propName) => {
     if (propName === 'avatar') {
       return false;
@@ -17,18 +44,22 @@ export const getFilteredUsers = (users, searchQuery) => {
     if (propName !== 'phone' && value.includes(query)) {
       return true;
     }
-    if (propName === 'phone') {
+    if (propName === 'phone' && query.length < QUERY_LENGTH_LIMIT) {
+      const hasOnlyDigits = /^[0-9]*$/.test(query);
       // discard everything except numbers
       const phoneNums = value.replace(/\D/g, '');
-      const queryNums = query.replace(/\D/g, '');
 
-      return queryNums.length > 0 && phoneNums.includes(queryNums);
+      return hasOnlyDigits
+        ? phoneNums.includes(query)
+        : value.includes(query);
     }
     return false;
   }
-  const filteredUsers = users.filter((user) => {
-    // NOTE: remember to NOT mutate initial users object
 
+  if (searchQuery === '') {
+    return users;
+  }
+  const filteredUsers = users.filter((user) => {
     // address:
     //   city: "New Devon"
     //   country: "Guinea-Bissau"
@@ -47,10 +78,6 @@ export const getFilteredUsers = (users, searchQuery) => {
     // job:
     //   company: "Ledner, Johnson and Predovic"
     //   title: "Investor Functionality Coordinator"
-
-    if (searchQuery === '') {
-      return true;
-    }
     let hasMatch = false;
 
     // NOTE: have been already lowercased and trimmed after input
@@ -78,18 +105,6 @@ export const getFilteredUsers = (users, searchQuery) => {
       });
     });
     return hasMatch;
-
-    // if (
-    //   user.name.toLowerCase().indexOf(searchQuery) >= 0
-    //   || `${user.age}`.indexOf(searchQuery) >= 0
-    //   || user.phrase.toLowerCase().indexOf(searchQuery) >= 0
-    // ) {
-    //   return true;
-    // }
-    // const phoneNums = user.phone.replace(/\D/g, '');
-    // const termNums = searchQuery.replace(/\D/g, '');
-
-    // return phoneNums.indexOf(termNums) >= 0;
   });
   return filteredUsers;
 };

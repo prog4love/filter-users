@@ -17,13 +17,20 @@ class UserList extends Component {
     }
 
     render() {
+      const { activeUser, users, selectActiveUser } = this.props;
+
       return (
         <div className="row">
           <div
             ref={this.stickyElement}
             className="active-user-container col-md-4"
           >
-            <ActiveUser user={this.props.activeUser} />
+            {activeUser && (
+              <ActiveUser
+                user={activeUser}
+                searchQuery={this.props.searchQuery}
+              />
+            )}
           </div>
           <div className="col-md-8">
             <div className="table"> {/* NOTE: was "table-responsive" */}
@@ -37,16 +44,23 @@ class UserList extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.props.users.map((user) => {
+                  {users.map((user) => {
                     return (
                       <UserData
                         key={user.id}
                         user={user}
                         searchQuery={this.props.searchQuery}
-                        onSelected={this.props.selectActiveUser.bind(this, user.id)}
+                        onSelected={selectActiveUser.bind(this, user.id)}
                       />
                     );
                   })}
+                  {users.length < 1 && (
+                    <tr className="user-data-item">
+                			<td>{' '}</td>
+                			<td style={{ textAlign: 'center' }}>{'Nothing found'}</td>
+                			<td>{' '}</td>
+                		</tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -57,7 +71,7 @@ class UserList extends Component {
 }
 
 UserList.propTypes = {
-  users: PropTypes.arrayOf(userPropType),
+  users: PropTypes.arrayOf(userPropType).isRequired,
   activeUser: userPropType,
   searchQuery: PropTypes.string,
   selectActiveUser: PropTypes.func
@@ -65,7 +79,7 @@ UserList.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    activeUser: getActiveUser(state.users, state.activeUserId),
+    activeUser: getActiveUser(state),
     searchQuery: state.searchQuery
   }
 };

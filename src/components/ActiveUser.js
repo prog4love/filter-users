@@ -3,8 +3,11 @@ import React from 'react';
 import * as Utils from '../utils';
 import { userPropType } from '../common-prop-types';
 
-const ActiveUser = ({ user }) => {
+import FoundTextMarker from './FoundTextMarker';
+
+const ActiveUser = ({ user, searchQuery }) => {
 		const { general, address = {}, contact = {}, job = {} } = user;
+
 		let optClassName = Object.keys(user).length ? '' : 'hide';
 
 		return (
@@ -12,9 +15,9 @@ const ActiveUser = ({ user }) => {
 				<div className="active-user-spacer-cover" />
 				{general && (
 					<div className="panel-heading text-center">
-						{general.firstName || ''}
+						{<FoundTextMarker text={general.firstName} query={searchQuery} />}
 						{general.firstName && general.lastName ? ' ' : ''}
-						{general.lastName || ''}
+						{<FoundTextMarker text={general.lastName} query={searchQuery} />}
 					</div>
 				)}
 				<div className="active-user-preview panel-body">
@@ -28,16 +31,32 @@ const ActiveUser = ({ user }) => {
 						</div>
 					)}
 					<ul className="active-user-info list-group">
-						<li className="list-group-item"><b>City:</b> {address.city}</li>
-						<li className="list-group-item"><b>Country:</b> {address.country}</li>
-						<li className="list-group-item"><b>Street:</b> {address.street}</li>
-						<li className="list-group-item"><b>Zip Code:</b> {address.zipCode}</li>
+						<li className="list-group-item"><b>City: </b>
+							{<FoundTextMarker text={address.city} query={searchQuery} />}
+						</li>
+						<li className="list-group-item"><b>Country: </b>
+							{<FoundTextMarker text={address.country} query={searchQuery} />}
+						</li>
+						<li className="list-group-item"><b>Street: </b>
+							{<FoundTextMarker text={address.street} query={searchQuery} />}
+						</li>
+						<li className="list-group-item"><b>Zip Code: </b>
+							{<FoundTextMarker text={address.zipCode} query={searchQuery} />}
+						</li>
 						<hr className="active-user-hr" />
-						<li className="list-group-item"><b>Email:</b> {contact.email}</li>
-						<li className="list-group-item"><b>Phone:</b> {contact.phone}</li>
+						<li className="list-group-item"><b>Email: </b>
+							{<FoundTextMarker text={contact.email} query={searchQuery} />}
+						</li>
+						<li className="list-group-item"><b>Phone: </b>
+							{<FoundTextMarker text={contact.phone} query={searchQuery} />}
+						</li>
 						<hr className="active-user-hr" />
-						<li className="list-group-item"><b>Company:</b> {job.company}</li>
-						<li className="list-group-item"><b>Position:</b> {job.title}</li>
+						<li className="list-group-item"><b>Company: </b>
+							{<FoundTextMarker text={job.company} query={searchQuery} />}
+						</li>
+						<li className="list-group-item"><b>Position: </b>
+							{<FoundTextMarker text={job.title} query={searchQuery} />}
+						</li>
 					</ul>
 				</div>
 				<div className="active-user-spacer-cover" />
@@ -46,7 +65,7 @@ const ActiveUser = ({ user }) => {
 }
 
 ActiveUser.propTypes = {
-	user: userPropType
+	user: userPropType.isRequired,
 };
 
 export default ActiveUser;

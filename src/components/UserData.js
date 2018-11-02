@@ -36,16 +36,16 @@ const UserData = ({ onSelected, user, searchQuery }) => {
 		<tr className="user-data-item" onClick={() => onSelected(user)}>
 			<td>
 				<img
-					src={user.general.avatar} // TODO: add || no avatart image
+					src={user.general.avatar} // TODO: add || src of default image
 					alt="User"
 					className="user-image"
 				/>
 			</td>
 			<td>
-				<FoundTextMarker initial={user.general.firstName} query={searchQuery} />
+				<FoundTextMarker text={user.general.firstName} query={searchQuery} />
 			</td>
 			<td>
-				<FoundTextMarker initial={user.general.lastName} query={searchQuery} />
+				<FoundTextMarker text={user.general.lastName} query={searchQuery} />
 			</td>
 			{/* <td>
 				<FoundPhoneMarker phone={user.phone} query={searchQuery} />

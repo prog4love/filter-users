@@ -1,18 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FoundTextMarker = ({ initial, query }) => {
-	const srcText = typeof initial === 'string' ? initial : `${initial}`;
+const FoundTextMarker = ({ text, query: searchQuery }) => {
+	const lowercasedText = text.toLowerCase();
+	const query = searchQuery.trim().toLowerCase();
 
-	if (srcText.indexOf(query) < 0) {
-		return initial;
+	if (text === '') {
+		return text;
 	}
-	let start = srcText.toLowerCase().indexOf(query);
-	let finish = query.length;
+	const startIndex = lowercasedText.indexOf(query);
 
-	let firstPart = srcText.substr(0, start);
-	let markPart = srcText.substr(start, finish);
-	let lastPart = srcText.substr(start + finish);
+	if (query === '' || startIndex < 0) {
+		return <span>{text}</span>;
+	}
+	const markEnd = query.length;
+
+	const firstPart = text.substr(0, startIndex);
+	const markPart = text.substr(startIndex, markEnd);
+	const lastPart = text.substr(startIndex + markEnd);
 
 	return (
 		<span>
@@ -26,8 +31,13 @@ const FoundTextMarker = ({ initial, query }) => {
 };
 
 FoundTextMarker.propTypes = {
-	initial: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-	query: PropTypes.string.isRequired,
+	text: PropTypes.string,
+	query: PropTypes.string,
+};
+
+FoundTextMarker.defaultProps = {
+	text: '',
+	query: '',
 };
 
 export default FoundTextMarker;
