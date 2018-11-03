@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-import { getUserImage } from '../utils';
 import { userPropType } from '../common-prop-types';
 
 import FoundTextMarker from './FoundTextMarker';
@@ -31,10 +31,15 @@ const _getMarkedText = (initial, query) => {
 	);
 };
 
-const UserData = ({ onSelected, user, searchQuery }) => {
+const UserData = ({ activeUserId, onSelected, user, searchQuery }) => {
 	return (
-		<tr className="user-data-item" onClick={() => onSelected(user)}>
-			<td>
+		<tr
+			className={classNames("user-data-tr", {
+				"user-data-active": user.id === activeUserId
+			})}
+			onClick={onSelected}
+		>
+			<td className="user-data-avatar-td">
 				<img
 					src={user.general.avatar} // TODO: add || src of default image
 					alt="User"
@@ -47,6 +52,9 @@ const UserData = ({ onSelected, user, searchQuery }) => {
 			<td>
 				<FoundTextMarker text={user.general.lastName} query={searchQuery} />
 			</td>
+			<td>
+				<FoundTextMarker text={user.contact.phone} query={searchQuery} />
+			</td>
 			{/* <td>
 				<FoundPhoneMarker phone={user.phone} query={searchQuery} />
 			</td> */}
@@ -55,9 +63,16 @@ const UserData = ({ onSelected, user, searchQuery }) => {
 };
 
 UserData.propTypes = {
+	activeUserId: PropTypes.string,
 	onSelected: PropTypes.func,
-	user: userPropType,
+	user: userPropType.isRequired,
 	searchQuery: PropTypes.string
+};
+
+UserData.defaultProps = {
+	activeUserId: PropTypes.string,
+	onSelected: () => {},
+	searchQuery: '',
 };
 
 export default UserData;

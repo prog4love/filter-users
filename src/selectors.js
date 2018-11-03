@@ -6,13 +6,6 @@ export const getUsers = state => state.users;
 export const getActiveUserId = state => state.activeUserId;
 export const getSearchQuery = state => state.searchQuery;
 
-// export const getActiveUser = (users, id) => {
-//   if (!id && id !== 0) {
-//     return [...users][0] || {};
-//   }
-//   return users.filter(d => d.id === id)[0] || {};
-// };
-
 export const getFilteredUsers = createSelector(
   [getUsers, getSearchQuery],
   filterUsers,

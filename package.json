@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.6",
     "core-js": "^2.5.7",
     "dreamjs": "^0.1.8",
     "jsonfile": "^5.0.0",

@@ -32,6 +32,8 @@
 // }
 
 $active-user-spacer-cover-height: 15px;
+$user-image-width: 60px;
+$user-image-height: 60px;
 
 .active-user-container {
   position: sticky;
@@ -39,12 +41,12 @@ $active-user-spacer-cover-height: 15px;
   z-index: 999;
 }
 
-// clearfix for sticky positioning
-// .active-user-container::before,
-// .active-user-container::after {
-//   content: '';
-//   display: table;
-// }
+// clearfix for sticky positioning (from styckyfilljs repo)
+.active-user-container::before,
+.active-user-container::after {
+  content: '';
+  display: table;
+}
 
 .active-user-spacer-cover {
   min-height: $active-user-spacer-cover-height;
@@ -126,18 +128,26 @@ $active-user-spacer-cover-height: 15px;
   margin-bottom: 0; // to reset bootstrap's row bottom margin
 }
 
-.user-image {
-  width: 60px;
-  height: 60px;
+.user-data-active {
+  outline: 1px solid white;
 }
 
-.user-data-item {
+.user-data-avatar-td {
+  width: $user-image-width + 6px * 2; // 6px - default bootstrap's "td" padding
+}
+
+.user-data-tr {
   cursor: pointer;
   font-size: 1em;
 
   @media only screen and (min-width: 480px) {
     font-size: 1.3em;
   }
+}
+
+.user-image {
+  width: $user-image-width;
+  height: $user-image-height;
 }
 
 @media only screen and (min-width: 992px) {
@@ -163,11 +173,22 @@ $active-user-spacer-cover-height: 15px;
 
   .table {
     padding-top: $active-user-spacer-cover-height;
+    padding-bottom: $active-user-spacer-cover-height;
+    margin-bottom: 0; // to be used with same entry for .panel
+  }
+
+  .panel {
+    margin-bottom: 0; // to be used with same entry for .table
   }
 
   // .toolbar {
   //   margin-bottom: 15px; // revert to bootstrap's row bottom margin
   // }
+
+  .user-data-avatar-td {
+    // 6px - default bootstrap's "td" padding, 28px - custom spacing
+    width: $user-image-width + 6px * 2 + 28px;
+  }
 }
 
 input::-ms-clear {

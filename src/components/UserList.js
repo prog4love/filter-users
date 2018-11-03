@@ -7,7 +7,7 @@ import UserData from './UserData';
 import ActiveUser from './ActiveUser';
 import { userPropType } from '../common-prop-types';
 import { selectActiveUser } from '../action-creators';
-import { getActiveUser } from '../selectors';
+import { getActiveUser, getSearchQuery } from '../selectors';
 
 class UserList extends Component {
     stickyElement = React.createRef()
@@ -40,7 +40,7 @@ class UserList extends Component {
                     <th>Image</th>
                     <th>First Name</th>
                     <th>Last Name</th>
-                    {/* <th>Phone</th> */}
+                    <th>Phone</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -49,13 +49,14 @@ class UserList extends Component {
                       <UserData
                         key={user.id}
                         user={user}
+                        activeUserId={activeUser.id}
                         searchQuery={this.props.searchQuery}
                         onSelected={selectActiveUser.bind(this, user.id)}
                       />
                     );
                   })}
                   {users.length < 1 && (
-                    <tr className="user-data-item">
+                    <tr className="user-data-tr">
                 			<td>{' '}</td>
                 			<td style={{ textAlign: 'center' }}>{'Nothing found'}</td>
                 			<td>{' '}</td>
@@ -80,7 +81,7 @@ UserList.propTypes = {
 const mapStateToProps = (state) => {
   return {
     activeUser: getActiveUser(state),
-    searchQuery: state.searchQuery
+    searchQuery: getSearchQuery(state),
   }
 };
 

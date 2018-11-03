@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import * as Utils from '../utils';
 import { userPropType } from '../common-prop-types';
@@ -66,6 +67,11 @@ const ActiveUser = ({ user, searchQuery }) => {
 
 ActiveUser.propTypes = {
 	user: userPropType.isRequired,
+	searchQuery: PropTypes.string,
+};
+
+ActiveUser.defaultProps = {
+	searchQuery: '',
 };
 
 export default ActiveUser;
