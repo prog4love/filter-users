@@ -22,7 +22,7 @@ const FoundTextMarker = ({ text, query: searchQuery }) => {
 	return (
 		<span>
 			{firstPart}
-			<strong style={{color: '#00D8FF'}}>
+			<strong className="highlighted-text">
 				{markPart}
 			</strong>
 			{lastPart}

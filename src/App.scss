@@ -82,6 +82,13 @@ $user-image-height: 60px;
   margin-bottom: 1px;
 }
 
+.highlighted-text {
+  background-color: transparent; // remove default background for mark tag
+  color: #00d8ff;
+  font-weight: bold;
+  padding: 0; // remove default bootstrap's padding for mark tag
+}
+
 .rc-intro {
   background-color: #222;
   padding: 2rem;

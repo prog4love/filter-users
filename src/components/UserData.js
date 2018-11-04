@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Highlighter from 'react-highlight-words';
 
 import { userPropType } from '../common-prop-types';
+import { findPhoneMatchingChunks } from '../selectors';
 
 import FoundTextMarker from './FoundTextMarker';
 import FoundPhoneMarker from './FoundPhoneMarker';
@@ -53,7 +55,15 @@ const UserData = ({ activeUserId, onSelected, user, searchQuery }) => {
 				<FoundTextMarker text={user.general.lastName} query={searchQuery} />
 			</td>
 			<td>
-				<FoundTextMarker text={user.contact.phone} query={searchQuery} />
+				<Highlighter
+			    highlightClassName="highlighted-text"
+					activeIndex={-1}
+			    searchWords={[searchQuery]}
+			    autoEscape={true}
+					findChunks={findPhoneMatchingChunks}
+			    textToHighlight={user.contact.phone}
+			  />
+				{/* <FoundTextMarker text={user.contact.phone} query={searchQuery} /> */}
 			</td>
 			{/* <td>
 				<FoundPhoneMarker phone={user.phone} query={searchQuery} />
