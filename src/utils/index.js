@@ -1,5 +1,7 @@
 import { findChunks } from 'highlight-words-core';
 
+const MAX_NUM_CHARS_DISTANCE = 3;
+
 export const concatClassNames = (addClassName, ...classNames) => {
 	return classNames.concat(addClassName).join(' ');
 }
@@ -29,16 +31,24 @@ function collectNumericCharIndexes(originalText) {
   }, { indexes: [], str: '' });
 }
 
-function checkDistanceBetweenNumChars(maxDistance = 3, originalText) {
-  let suitLimit = true;
+// ensure that distance (in chars) between numeric chars in string not exceeds
+// the limit, e.g. 4 and 7 with distance limit of 3 => true,
+// 4 and 7 with distance limit of 2 => false
+const checkDistanceBetweenNumChars = (maxDistance = 3, originalText) => {
+  let satisfyLimit = true;
+
+  if (maxDistance < 1 && process.env.NODE_ENV !== 'production') {
+    throw new Error('Expected distance limit to be not less than 1');
+  }
+  maxDistance = maxDistance < 1 ? 1 : maxDistance;
 
   originalText.split('').reduce((prevIndex, char, index) => {
-    if (!suitLimit) {
+    if (!satisfyLimit) {
       return prevIndex;
     }
     if (/[0-9]/.test(char)) {
-      suitLimit = prevIndex === null
-        ? suitLimit
+      satisfyLimit = prevIndex === null
+        ? satisfyLimit
         : prevIndex + maxDistance >= index;
       return index;
     } else {
@@ -46,57 +56,14 @@ function checkDistanceBetweenNumChars(maxDistance = 3, originalText) {
     }
   }, null);
 
-  return suitLimit;
-}
+  return satisfyLimit;
+};
 
-// used as custom findChunks function for Highlighter component
-// and as helper function in users filtering selector
-export function findPhoneMatchingChunks({ searchWords, textToHighlight }) {
-  if (
-    process.env.NODE_ENV !== 'production'
-    && (
-    typeof textToHighlight !== 'string'
-    || !Array.isArray(searchWords)
-    || typeof searchWords[0] !== 'string'
-  )) {
-    throw new Error('Expected array of strings and string params');
-  }
-  const chunks = findChunks({
-    autoEscape: true,
-    caseSensitive: false,
-    searchWords,
-    textToHighlight,
-  });
-  const [query] = searchWords;
-  const phoneString = textToHighlight;
-  // TEMP:
-  if (chunks.length > 0) {
-    console.log('MATCHING CHUNKS: ', chunks);
-  }
-  if (!query || !textToHighlight) {
-    return chunks;
-  }
-  // const isNumeric = /^[0-9]*$/.test(query);
-  // discard everything except numbers
-  // const queryNums = query.replace(/\D/g, '');
-
-  // TODO: add max distance limit between num char indexes in query
-  const queryNums = query.replace(/\D/g, '');
-
-  if (queryNums === '' || !checkDistanceBetweenNumChars(2, query)) {
-    return chunks;
-  }
-  const phoneNums = collectNumericCharIndexes(phoneString);
-  const startIndex = phoneNums.str.indexOf(queryNums);
-
-  if (startIndex < 0) {
-    return chunks;
-  }
-  const matchIndexes = phoneNums.indexes.slice(startIndex, startIndex + queryNums.length);
-
-  // generate array of matching numeric chunks { start: Number, end: Number },
-  // where start and end - indexes of chars in original phone string
-  const numChunks = matchIndexes.reduce((chunks, current, i) => {
+// generate array of chunks using indexes of matching numeric chars in original
+// phone string. Single chunk:
+// { start: Number, end: Number }, end index char will be not highlighted
+function produceChunksByMatchIndexes(matchIndexes, ) {
+  return matchIndexes.reduce((chunks, current, i) => {
     if (i === 0) {
       chunks.push({ start: current });
     }
@@ -117,8 +84,79 @@ export function findPhoneMatchingChunks({ searchWords, textToHighlight }) {
     }
     return chunks;
   }, []);
+}
+
+// const uniteChunks = (chunks, numChunks) => {
+//   const result = chunks;
+//
+//   numChunks.forEach(numChunk => {
+//     const isNumChunkIncluded = chunks.some(chunk => (
+//       chunk.start <= numChunk.start && chunk.end >= numChunk.end
+//     ));
+//
+//     if (!isNumChunkIncluded) {
+//       result.push(numChunk);
+//     }
+//   });
+//   return result;
+// };
+
+// used as custom findChunks function for Highlighter component
+// and as helper function in users filtering selector
+export function findPhoneMatchingChunks({ searchWords, textToHighlight }) {
+  if (
+    process.env.NODE_ENV !== 'production'
+    && (
+    typeof textToHighlight !== 'string'
+    || !Array.isArray(searchWords)
+    || typeof searchWords[0] !== 'string'
+  )) {
+    throw new Error('Expected array of strings and string params');
+  }
+  // findChunks - default utility function from "react-highlight-words"
+  const chunks = findChunks({
+    autoEscape: true,
+    caseSensitive: false,
+    searchWords,
+    textToHighlight,
+  });
+
+  // NOTE: if chunk present - do not search for num chunks at all                (1)
+  if (chunks.length > 0) {
+    console.log('MATCHING CHUNKS: ', chunks);
+    return chunks;
+  }
+  // following code provides kind of fuzzy-like search in phone string:
+  // get only numbers from query and compare them to numbers from phone string
+  const [query] = searchWords;
+  const phoneString = textToHighlight;
+
+  if (!query || !phoneString) {
+    return chunks;
+  }
+  // discard everything except numbers
+  const queryNums = query.replace(/\D/g, '');
+
+  if (queryNums === '') {
+    return chunks;
+  }
+  // TODO: save result to external variable to not count again fot each phone
+  const fitLimit = checkDistanceBetweenNumChars(MAX_NUM_CHARS_DISTANCE, query);
+
+  if (!fitLimit) {
+    return chunks;
+  }
+  const phoneNums = collectNumericCharIndexes(phoneString);
+  const startIndex = phoneNums.str.indexOf(queryNums);
+
+  if (startIndex < 0) {
+    return chunks;
+  }
+  const matchIndexes = phoneNums.indexes.slice(startIndex, startIndex + queryNums.length);
+  const numChunks = produceChunksByMatchIndexes(matchIndexes);
 
   console.log('NUM CHUNKS: ', numChunks);
-
-  return chunks;
+  // NOTE: after (1) it became unnecessary
+  // const finalChunks = uniteChunks(chunks, numChunks);
+  return numChunks;
 }

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Highlighter from 'react-highlight-words';
 
 import { userPropType } from '../common-prop-types';
-import { findPhoneMatchingChunks } from '../selectors';
+import { findPhoneMatchingChunks } from '../utils';
 
 import FoundTextMarker from './FoundTextMarker';
 import FoundPhoneMarker from './FoundPhoneMarker';
