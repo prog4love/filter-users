@@ -33,7 +33,7 @@ class UserList extends Component {
             )}
           </div>
           <div className="col-md-8">
-            <div className="table"> {/* NOTE: was "table-responsive" */}
+            <div className="table-responsive user-list-table"> {/* NOTE: was "table-responsive" */}
               <table className="table table-striped table-bordered table-hover">
                 <thead>
                   <tr>

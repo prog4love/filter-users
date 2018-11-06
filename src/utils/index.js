@@ -25,16 +25,28 @@ function collectNumericCharIndexes(originalText) {
   return originalText.split('').reduce((collection, char, index) => {
     if (/[0-9]/.test(char)) {
       collection.indexes.push(index);
-      collection.str += char;
+      collection.string += char;
     }
     return collection;
-  }, { indexes: [], str: '' });
+  }, { indexes: [], string: '' });
 }
+
+// to cache result of certain query string check
+const checkedQuery = {
+  string: null,
+  limit: null,
+  result: null,
+};
 
 // ensure that distance (in chars) between numeric chars in string not exceeds
 // the limit, e.g. 4 and 7 with distance limit of 3 => true,
 // 4 and 7 with distance limit of 2 => false
 const checkDistanceBetweenNumChars = (maxDistance = 3, originalText) => {
+  const { string, limit } = checkedQuery;
+
+  if (string === originalText && limit === maxDistance) {
+    return checkedQuery.result;
+  }
   let satisfyLimit = true;
 
   if (maxDistance < 1 && process.env.NODE_ENV !== 'production') {
@@ -55,6 +67,10 @@ const checkDistanceBetweenNumChars = (maxDistance = 3, originalText) => {
       return prevIndex;
     }
   }, null);
+
+  checkedQuery.string = originalText;
+  checkedQuery.limit = maxDistance;
+  checkedQuery.result = satisfyLimit;
 
   return satisfyLimit;
 };
@@ -121,7 +137,6 @@ export function findPhoneMatchingChunks({ searchWords, textToHighlight }) {
     textToHighlight,
   });
 
-  // NOTE: if chunk present - do not search for num chunks at all                (1)
   if (chunks.length > 0) {
     console.log('MATCHING CHUNKS: ', chunks);
     return chunks;
@@ -140,14 +155,16 @@ export function findPhoneMatchingChunks({ searchWords, textToHighlight }) {
   if (queryNums === '') {
     return chunks;
   }
-  // TODO: save result to external variable to not count again fot each phone
+  if (checkedQuery.string === query) {
+
+  }
   const fitLimit = checkDistanceBetweenNumChars(MAX_NUM_CHARS_DISTANCE, query);
 
   if (!fitLimit) {
     return chunks;
   }
   const phoneNums = collectNumericCharIndexes(phoneString);
-  const startIndex = phoneNums.str.indexOf(queryNums);
+  const startIndex = phoneNums.string.indexOf(queryNums);
 
   if (startIndex < 0) {
     return chunks;
@@ -156,7 +173,6 @@ export function findPhoneMatchingChunks({ searchWords, textToHighlight }) {
   const numChunks = produceChunksByMatchIndexes(matchIndexes);
 
   console.log('NUM CHUNKS: ', numChunks);
-  // NOTE: after (1) it became unnecessary
-  // const finalChunks = uniteChunks(chunks, numChunks);
+
   return numChunks;
 }

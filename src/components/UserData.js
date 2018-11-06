@@ -7,31 +7,6 @@ import { userPropType } from '../common-prop-types';
 import { findPhoneMatchingChunks } from '../utils';
 
 import FoundTextMarker from './FoundTextMarker';
-import FoundPhoneMarker from './FoundPhoneMarker';
-
-const _getMarkedText = (initial, query) => {
-	const srcText = typeof initial === 'string' ? initial : `${initial}`;
-
-	if (srcText.indexOf(query) < 0) {
-		return initial;
-	}
-	let start = srcText.toLowerCase().indexOf(query);
-	let finish = query.length;
-
-	let markPart = srcText.substr(start, finish);
-	let firstPart = srcText.substr(0, start);
-	let lastPart = srcText.substr(start + finish);
-
-	return (
-		<span>
-			{firstPart}
-			<strong style={{color: '#00D8FF'}}>
-				{markPart}
-			</strong>
-			{lastPart}
-		</span>
-	);
-};
 
 const UserData = ({ activeUserId, onSelected, user, searchQuery }) => {
 	return (
@@ -63,11 +38,7 @@ const UserData = ({ activeUserId, onSelected, user, searchQuery }) => {
 					findChunks={findPhoneMatchingChunks}
 			    textToHighlight={user.contact.phone}
 			  />
-				{/* <FoundTextMarker text={user.contact.phone} query={searchQuery} /> */}
 			</td>
-			{/* <td>
-				<FoundPhoneMarker phone={user.phone} query={searchQuery} />
-			</td> */}
 		</tr>
 	);
 };

@@ -71,8 +71,7 @@ export function findMatchInUserData(userData, searchQuery) {
       }
       const value = fieldProps[prop];
 
-      // TODO: ensure that value is string
-      if (prop === 'avatar' || !value) {
+      if (prop === 'avatar' || !value || typeof value !== 'string') {
         return;
       }
       hasMatch = comparePropWithQuery(prop, value, query);

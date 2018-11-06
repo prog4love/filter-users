@@ -54,8 +54,13 @@ $user-image-height: 60px;
 }
 
 .active-user-image {
-  width: 180px;
-  height: 180px;
+  width: 120px;
+  height: 120px;
+
+  @media only screen and (min-width: 992px), only screen and (min-height: 700px) {
+    width: 180px;
+    height: 180px;
+  }
 }
 
 .active-user-preview {
@@ -66,14 +71,21 @@ $user-image-height: 60px;
   margin-bottom: 0;
 
   &.list-group {
-    max-height: 180px;
+    max-height: 120px;
     overflow: auto;
     flex: auto;
     padding: 0 10px;
   }
 
   .list-group-item {
+    padding: 5px 10px;
     overflow: auto;
+  }
+
+  @media only screen and (min-width: 992px), only screen and (min-height: 700px) {
+    &.list-group {
+      max-height: 180px;
+    }
   }
 }
 
@@ -87,6 +99,85 @@ $user-image-height: 60px;
   color: #00d8ff;
   font-weight: bold;
   padding: 0; // remove default bootstrap's padding for mark tag
+}
+
+// .row {
+//   margin-bottom: 15px;
+// }
+
+.toolbar {
+  padding-top: 15px;
+  // margin-bottom: 0; // to reset bootstrap's row bottom margin - no such margin ???
+}
+
+.user-data-active {
+  outline: 1px solid white;
+}
+
+.user-data-avatar-td {
+  width: $user-image-width + 6px * 2; // 6px - default bootstrap's "td" padding
+}
+
+.user-data-tr {
+  cursor: pointer;
+  font-size: 1em;
+
+  @media only screen and (min-width: 480px) {
+    font-size: 1.3em;
+  }
+}
+
+.user-image {
+  width: $user-image-width;
+  height: $user-image-height;
+}
+
+@media only screen and (min-width: 992px) {
+  .active-user-container {
+    top: 15px; // + block with .active-user-spacer-cover is removed
+    margin-bottom: 21px; // same as bootstrap's .table margin-bottom
+  }
+
+  .active-user-info {
+    &.list-group {
+      max-height: none;
+      overflow: initial;
+      padding: 0;
+    }
+
+    .list-group-item {
+      padding: 10px 15px; // revert to bootstrap's default
+    }
+  }
+
+  .active-user-preview {
+    flex-direction: column;
+  }
+
+  .active-user-spacer-cover {
+    display: none;
+  }
+
+  .user-list-table {
+    margin-bottom: 0; // to be used with same entry for .panel
+  }
+
+  .panel {
+    margin-bottom: 0; // to be used with same entry for .user-list-table
+  }
+
+  .toolbar {
+    padding-bottom: 15px;
+  }
+
+  .user-data-avatar-td {
+    // 6px - default bootstrap's "td" padding, 28px - custom spacing
+    width: $user-image-width + 6px * 2 + 28px;
+  }
+}
+
+input::-ms-clear {
+  display: none;
 }
 
 .rc-intro {
@@ -125,79 +216,4 @@ $user-image-height: 60px;
   margin-top: 2rem;
   font-size: 2rem;
   color: #ccc;
-}
-
-.row {
-  margin-bottom: 15px;
-}
-
-.toolbar {
-  margin-bottom: 0; // to reset bootstrap's row bottom margin
-}
-
-.user-data-active {
-  outline: 1px solid white;
-}
-
-.user-data-avatar-td {
-  width: $user-image-width + 6px * 2; // 6px - default bootstrap's "td" padding
-}
-
-.user-data-tr {
-  cursor: pointer;
-  font-size: 1em;
-
-  @media only screen and (min-width: 480px) {
-    font-size: 1.3em;
-  }
-}
-
-.user-image {
-  width: $user-image-width;
-  height: $user-image-height;
-}
-
-@media only screen and (min-width: 992px) {
-  // .active-user-container {
-  //   top: 15px; // + block with .active-user-spacer-cover is removed
-  // }
-
-  .active-user-info {
-    &.list-group {
-      max-height: none;
-      overflow: initial;
-      padding: 0;
-    }
-  }
-
-  // .active-user-spacer-cover {
-  //   display: none;
-  // }
-
-  .active-user-preview {
-    flex-direction: column;
-  }
-
-  .table {
-    padding-top: $active-user-spacer-cover-height;
-    padding-bottom: $active-user-spacer-cover-height;
-    margin-bottom: 0; // to be used with same entry for .panel
-  }
-
-  .panel {
-    margin-bottom: 0; // to be used with same entry for .table
-  }
-
-  // .toolbar {
-  //   margin-bottom: 15px; // revert to bootstrap's row bottom margin
-  // }
-
-  .user-data-avatar-td {
-    // 6px - default bootstrap's "td" padding, 28px - custom spacing
-    width: $user-image-width + 6px * 2 + 28px;
-  }
-}
-
-input::-ms-clear {
-  display: none;
 }
