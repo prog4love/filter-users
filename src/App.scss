@@ -48,6 +48,24 @@ $user-image-height: 60px;
   display: table;
 }
 
+.active-user-fullname {
+  background-color: #485563;
+  color: #ebebeb;
+  padding: 2px 5px;
+
+  @media only screen and (min-height: 450px) {
+    display: none;
+  }
+}
+
+.active-user-heading {
+  display: none;
+
+  @media only screen and (min-height: 450px) {
+    display: block;
+  }
+}
+
 .active-user-spacer-cover {
   min-height: $active-user-spacer-cover-height;
   background-color: #2b3e50;

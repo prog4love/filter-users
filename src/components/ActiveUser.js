@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import * as Utils from '../utils';
@@ -8,6 +8,13 @@ import FoundTextMarker from './FoundTextMarker';
 
 const ActiveUser = ({ user, searchQuery }) => {
 		const { general, address = {}, contact = {}, job = {} } = user;
+		const userName = (
+			<Fragment>
+				{<FoundTextMarker text={general.firstName} query={searchQuery} />}
+				{general.firstName && general.lastName ? ' ' : ''}
+				{<FoundTextMarker text={general.lastName} query={searchQuery} />}
+			</Fragment>
+		);
 
 		let optClassName = Object.keys(user).length ? '' : 'hide';
 
@@ -15,10 +22,8 @@ const ActiveUser = ({ user, searchQuery }) => {
 			<div className={Utils.concatClassNames(optClassName, 'panel', 'panel-default')}>
 				<div className="active-user-spacer-cover" />
 				{general && (
-					<div className="panel-heading text-center">
-						{<FoundTextMarker text={general.firstName} query={searchQuery} />}
-						{general.firstName && general.lastName ? ' ' : ''}
-						{<FoundTextMarker text={general.lastName} query={searchQuery} />}
+					<div className="active-user-heading panel-heading text-center">
+						{userName}
 					</div>
 				)}
 				<div className="active-user-preview panel-body">
@@ -32,6 +37,9 @@ const ActiveUser = ({ user, searchQuery }) => {
 						</div>
 					)}
 					<ul className="active-user-info list-group">
+						<li className="active-user-fullname text-center">
+							{userName}
+						</li>
 						<li className="list-group-item"><b>City: </b>
 							{<FoundTextMarker text={address.city} query={searchQuery} />}
 						</li>
