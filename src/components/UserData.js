@@ -20,7 +20,7 @@ const UserData = ({ activeUserId, onSelected, user, searchQuery }) => {
 				<img
 					src={user.general.avatar} // TODO: add || src of default image
 					alt="User"
-					className="user-image"
+					className="user-data-image"
 				/>
 			</td>
 			<td>

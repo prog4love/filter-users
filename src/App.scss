@@ -1,116 +1,6 @@
-// .App {
-//   text-align: center;
-// }
-
-// .App-logo {
-//   animation: App-logo-spin infinite 20s linear;
-//   height: 40vmin;
-// }
-
-// .App-header {
-//   background-color: #282c34;
-//   min-height: 100vh;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: calc(10px + 2vmin);
-//   color: white;
-// }
-
-// .App-link {
-//   color: #61dafb;
-// }
-
-// @keyframes App-logo-spin {
-//   from {
-//     transform: rotate(0deg);
-//   }
-//   to {
-//     transform: rotate(360deg);
-//   }
-// }
-
-$active-user-spacer-cover-height: 15px;
-$user-image-width: 60px;
-$user-image-height: 60px;
-
-.active-user-container {
-  position: sticky;
-  top: 0;  // block with .active-user-spacer-cover is added at top
-  z-index: 999;
-}
-
-// clearfix for sticky positioning (from styckyfilljs repo)
-.active-user-container::before,
-.active-user-container::after {
-  content: '';
-  display: table;
-}
-
-.active-user-fullname {
-  background-color: #485563;
-  color: #ebebeb;
-  padding: 2px 5px;
-
-  @media only screen and (min-height: 450px) {
-    display: none;
-  }
-}
-
-.active-user-heading {
-  display: none;
-
-  @media only screen and (min-height: 450px) {
-    display: block;
-  }
-}
-
-.active-user-spacer-cover {
-  min-height: $active-user-spacer-cover-height;
-  background-color: #2b3e50;
-}
-
-.active-user-image {
-  width: 120px;
-  height: 120px;
-
-  @media only screen and (min-width: 992px), only screen and (min-height: 700px) {
-    width: 180px;
-    height: 180px;
-  }
-}
-
-.active-user-preview {
-  display: flex;
-}
-
-.active-user-info {
-  margin-bottom: 0;
-
-  &.list-group {
-    max-height: 120px;
-    overflow: auto;
-    flex: auto;
-    padding: 0 10px;
-  }
-
-  .list-group-item {
-    padding: 5px 10px;
-    overflow: auto;
-  }
-
-  @media only screen and (min-width: 992px), only screen and (min-height: 700px) {
-    &.list-group {
-      max-height: 180px;
-    }
-  }
-}
-
-.active-user-hr {
-  margin-top: 1px;
-  margin-bottom: 1px;
-}
+$active-user__spacer-cover-height: 15px;
+$user-data-image-width: 60px;
+$user-data-image-height: 60px;
 
 .highlighted-text {
   background-color: transparent; // remove default background for mark tag
@@ -133,7 +23,7 @@ $user-image-height: 60px;
 }
 
 .user-data-avatar-td {
-  width: $user-image-width + 6px * 2; // 6px - default bootstrap's "td" padding
+  width: $user-data-image-width + 6px * 2; // 6px - default bootstrap's "td" padding
 }
 
 .user-data-tr {
@@ -145,37 +35,12 @@ $user-image-height: 60px;
   }
 }
 
-.user-image {
-  width: $user-image-width;
-  height: $user-image-height;
+.user-data-image {
+  width: $user-data-image-width;
+  height: $user-data-image-height;
 }
 
 @media only screen and (min-width: 992px) {
-  .active-user-container {
-    top: 15px; // + block with .active-user-spacer-cover is removed
-    margin-bottom: 21px; // same as bootstrap's .table margin-bottom
-  }
-
-  .active-user-info {
-    &.list-group {
-      max-height: none;
-      overflow: initial;
-      padding: 0;
-    }
-
-    .list-group-item {
-      padding: 10px 15px; // revert to bootstrap's default
-    }
-  }
-
-  .active-user-preview {
-    flex-direction: column;
-  }
-
-  .active-user-spacer-cover {
-    display: none;
-  }
-
   .user-list-table {
     margin-bottom: 0; // to be used with same entry for .panel
   }
@@ -190,12 +55,8 @@ $user-image-height: 60px;
 
   .user-data-avatar-td {
     // 6px - default bootstrap's "td" padding, 28px - custom spacing
-    width: $user-image-width + 6px * 2 + 28px;
+    width: $user-data-image-width + 6px * 2 + 28px;
   }
-}
-
-input::-ms-clear {
-  display: none;
 }
 
 .rc-intro {
@@ -235,3 +96,40 @@ input::-ms-clear {
   font-size: 2rem;
   color: #ccc;
 }
+
+input::-ms-clear {
+  display: none;
+}
+
+// .App {
+//   text-align: center;
+// }
+
+// .App-logo {
+//   animation: App-logo-spin infinite 20s linear;
+//   height: 40vmin;
+// }
+
+// .App-header {
+//   background-color: #282c34;
+//   min-height: 100vh;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: calc(10px + 2vmin);
+//   color: white;
+// }
+
+// .App-link {
+//   color: #61dafb;
+// }
+
+// @keyframes App-logo-spin {
+//   from {
+//     transform: rotate(0deg);
+//   }
+//   to {
+//     transform: rotate(360deg);
+//   }
+// }

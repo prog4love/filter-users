@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import * as Utils from '../utils';
-import { userPropType } from '../common-prop-types';
+import './ActiveUser.scss';
 
-import FoundTextMarker from './FoundTextMarker';
+import { userPropType } from 'common-prop-types';
+
+import FoundTextMarker from '../FoundTextMarker';
 
 const ActiveUser = ({ user, searchQuery }) => {
 		const { general, address = {}, contact = {}, job = {} } = user;
@@ -16,28 +17,28 @@ const ActiveUser = ({ user, searchQuery }) => {
 			</Fragment>
 		);
 
-		let optClassName = Object.keys(user).length ? '' : 'hide';
+		// let optClassName = Object.keys(user).length ? '' : 'hide';
 
 		return (
-			<div className={Utils.concatClassNames(optClassName, 'panel', 'panel-default')}>
-				<div className="active-user-spacer-cover" />
+			<div className="active-user panel panel-default">
+				<div className="active-user__spacer-cover" />
 				{general && (
-					<div className="active-user-heading panel-heading text-center">
+					<div className="active-user__heading panel-heading text-center">
 						{userName}
 					</div>
 				)}
-				<div className="active-user-preview panel-body">
+				<div className="active-user__preview panel-body">
 					{general && general.avatar && (
 						<div className="text-center">
 							<img
 								src={general.avatar}
 								alt="Selected User"
-								className="active-user-image"
+								className="active-user__image"
 							/>
 						</div>
 					)}
-					<ul className="active-user-info list-group">
-						<li className="active-user-fullname text-center">
+					<ul className="active-user__info list-group">
+						<li className="active-user__fullname text-center">
 							{userName}
 						</li>
 						<li className="list-group-item"><b>City: </b>
@@ -52,14 +53,14 @@ const ActiveUser = ({ user, searchQuery }) => {
 						<li className="list-group-item"><b>Zip Code: </b>
 							{<FoundTextMarker text={address.zipCode} query={searchQuery} />}
 						</li>
-						<hr className="active-user-hr" />
+						<hr className="active-user__hr" />
 						<li className="list-group-item"><b>Email: </b>
 							{<FoundTextMarker text={contact.email} query={searchQuery} />}
 						</li>
 						<li className="list-group-item"><b>Phone: </b>
 							{<FoundTextMarker text={contact.phone} query={searchQuery} />}
 						</li>
-						<hr className="active-user-hr" />
+						<hr className="active-user__hr" />
 						<li className="list-group-item"><b>Company: </b>
 							{<FoundTextMarker text={job.company} query={searchQuery} />}
 						</li>
@@ -68,7 +69,7 @@ const ActiveUser = ({ user, searchQuery }) => {
 						</li>
 					</ul>
 				</div>
-				<div className="active-user-spacer-cover" />
+				<div className="active-user__spacer-cover" />
 			</div>
 		);
 }

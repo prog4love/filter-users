@@ -23,7 +23,7 @@ class UserList extends Component {
         <div className="row">
           <div
             ref={this.stickyElement}
-            className="active-user-container col-md-4"
+            className="active-user__container col-md-4"
           >
             {activeUser && (
               <ActiveUser
@@ -33,7 +33,7 @@ class UserList extends Component {
             )}
           </div>
           <div className="col-md-8">
-            <div className="table-responsive user-list-table"> {/* NOTE: was "table-responsive" */}
+            <div className="table-responsive user-list-table">
               <table className="table table-striped table-bordered table-hover">
                 <thead>
                   <tr>

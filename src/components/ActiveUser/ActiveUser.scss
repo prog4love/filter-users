@@ -1,0 +1,194 @@
+@import 'App.scss';
+
+.active-user {
+  &__container {
+    position: sticky;
+    top: 0;  // block with .active-user__spacer-cover is added at top
+    z-index: 999;
+  }
+
+  // clearfix for sticky positioning (from styckyfilljs repo)
+  &__container::before,
+  &__container::after {
+    content: '';
+    display: table;
+  }
+
+  &__fullname {
+    background-color: #485563;
+    color: #ebebeb;
+    padding: 2px 5px;
+  }
+
+  &__heading {
+    display: none;
+  }
+
+  @media only screen and (min-width: 992px), only screen and (min-height: 450px) {
+    &__fullname {
+      display: none;
+    }
+
+    &__heading {
+      display: block;
+    }
+  }
+
+  &__spacer-cover {
+    min-height: $active-user__spacer-cover-height;
+    background-color: #2b3e50;
+  }
+
+  &__image {
+    width: 120px;
+    height: 120px;
+  }
+
+  &__info {
+    margin-bottom: 0;
+
+    &.list-group {
+      max-height: 120px;
+      overflow: auto;
+      flex: auto;
+      padding: 0 10px;
+    }
+
+    .list-group-item {
+      padding: 5px 10px;
+      overflow: auto;
+    }
+  }
+
+  // OPTIONAL
+  // @media only screen and (min-height: 700px) {
+  //   &__image {
+  //     width: 180px;
+  //     height: 180px;
+  //   }
+  //
+  //   &__info {
+  //     &.list-group {
+  //       max-height: 180px;
+  //     }
+  //   }
+  // }
+
+  &__hr {
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+
+  &__preview {
+    display: flex;
+  }
+
+  @media only screen and (min-width: 992px) {
+    &__container {
+      top: 15px; // + block with .active-user__spacer-cover is removed
+      margin-bottom: 21px; // same as bootstrap's .table margin-bottom
+    }
+
+    &__image {
+      width: 180px;
+      height: 180px;
+    }
+
+    &__info {
+      &.list-group {
+        max-height: none;
+        overflow: initial;
+        padding: 0;
+      }
+
+      .list-group-item {
+        padding: 10px 15px; // revert to bootstrap's default
+      }
+    }
+
+    &__preview {
+      flex-direction: column;
+    }
+
+    &__spacer-cover {
+      display: none;
+    }
+  }
+}
+
+// .active-user__container {
+//   position: sticky;
+//   top: 0;  // block with .active-user__spacer-cover is added at top
+//   z-index: 999;
+// }
+
+// clearfix for sticky positioning (from styckyfilljs repo)
+// .active-user__container::before,
+// .active-user__container::after {
+//   content: '';
+//   display: table;
+// }
+
+// .active-user__fullname {
+//   background-color: #485563;
+//   color: #ebebeb;
+//   padding: 2px 5px;
+//
+//   @media only screen and (min-width: 992px) or (min-height: 450px) {
+//     display: none;
+//   }
+// }
+
+// .active-user__heading {
+//   display: none;
+//
+//   @media only screen and (min-width: 992px) or (min-height: 450px) {
+//     display: block;
+//   }
+// }
+
+// .active-user__spacer-cover {
+//   min-height: $active-user__spacer-cover-height;
+//   background-color: #2b3e50;
+// }
+
+// .active-user__image {
+//   width: 120px;
+//   height: 120px;
+//
+//   @media only screen and (min-width: 992px), only screen and (min-height: 700px) {
+//     width: 180px;
+//     height: 180px;
+//   }
+// }
+
+// .active-user__preview {
+//   display: flex;
+// }
+
+// .active-user__info {
+//   margin-bottom: 0;
+//
+//   &.list-group {
+//     max-height: 120px;
+//     overflow: auto;
+//     flex: auto;
+//     padding: 0 10px;
+//   }
+//
+//   .list-group-item {
+//     padding: 5px 10px;
+//     overflow: auto;
+//   }
+//
+//   @media only screen and (min-width: 992px), only screen and (min-height: 700px) {
+//     &.list-group {
+//       max-height: 180px;
+//     }
+//   }
+// }
+
+// .active-user__hr {
+//   margin-top: 1px;
+//   margin-bottom: 1px;
+// }
